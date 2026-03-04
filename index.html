@@ -45,17 +45,19 @@
             position: fixed;
             inset: 0;
             z-index: -5;
-            background: url("bg.png") center/cover no-repeat;
+
+            background-image: url("bg.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 100% 100%;
+            /* INI KUNCINYA */
         }
 
-        .bg::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 50% 20%, rgba(210, 170, 87, .12), transparent 60%),
-                linear-gradient(180deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, .70));
+
+        .bg {
+            background-attachment: scroll;
         }
+
 
         /* ===== COVER ===== */
         .cover {
@@ -382,20 +384,45 @@
             max-width: 360px;
         }
 
+        /* ===== GALLERY FIX MOBILE ===== */
+
+        /* ===== GALLERY FINAL ===== */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            /* desktop 2 kolom */
+            gap: 12px;
+            margin-top: 14px;
         }
 
         .gallery img {
             width: 100%;
-            height: 215px;
-            object-fit: cover;
-            border-radius: 22px;
+            aspect-ratio: 3 / 4;
+            object-fit: contain;
+            object-position: center;
+
+            background: transparent;
+            border-radius: 35px;
+            /* ini bikin lebih smooth */
             border: 1px solid rgba(243, 216, 156, .14);
-            filter: saturate(.95) contrast(1.08);
+            padding: 6px;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        /* MOBILE */
+        @media (max-width:560px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                /* tetap 2 kolom di HP */
+                gap: 10px;
+            }
+
+            .gallery img {
+                aspect-ratio: 3 / 4;
+            }
         }
 
         footer {
@@ -513,9 +540,7 @@
                 font-size: 16px;
             }
 
-            .gallery {
-                grid-template-columns: 1fr;
-            }
+
 
             .gallery img {
                 height: 240px;
@@ -541,6 +566,341 @@
                 scroll-snap-align: none;
             }
         }
+
+        /* =========================
+   ORNAMEN POJOK CARD (w2.png)
+========================= */
+        .card {
+            position: relative;
+            /* wajib */
+            overflow: hidden;
+            /* biar ornamen gak keluar card */
+        }
+
+        /* kiri atas */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -22px;
+            left: -22px;
+            width: 120px;
+            height: 120px;
+            background: url("bingkai.png") center/contain no-repeat;
+            opacity: .55;
+            pointer-events: none;
+            z-index: 0;
+            filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .55));
+        }
+
+        /* kanan bawah (mirror biar simetris) */
+        .card::after {
+            content: "";
+            position: absolute;
+            bottom: -22px;
+            right: -22px;
+            width: 120px;
+            height: 120px;
+            background: url("bingkai.png") center/contain no-repeat;
+            opacity: .55;
+            pointer-events: none;
+            z-index: 0;
+            transform: scaleX(-1) scaleY(-1);
+            filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .55));
+        }
+
+        /* semua isi card harus di atas ornamen */
+        .card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =========================
+   DOOR OPEN ANIMATION
+========================= */
+        /* =========================
+   DOOR PNG (kiri.png & kanan.png)
+========================= */
+        /* =========================
+   DOOR PUSH OPEN (3D ROTATE)
+========================= */
+        .cover {
+            position: fixed;
+            inset: 0;
+            perspective: 1200px;
+            /* bikin efek 3D */
+            transform-style: preserve-3d;
+        }
+
+        /* panel pintu */
+        .door {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            z-index: 998;
+
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+
+            transition: transform 1.7s cubic-bezier(.2, .9, .15, 1);
+        }
+
+        /* pintu kiri (engsel di kiri) */
+        .door.left {
+            left: 0;
+            background-image: url("kiri.png");
+            transform-origin: left center;
+            /* titik engsel */
+            transform: rotateY(0deg);
+        }
+
+        /* pintu kanan (engsel di kanan) */
+        .door.right {
+            right: 0;
+            background-image: url("kanan.png");
+            transform-origin: right center;
+            /* titik engsel */
+            transform: rotateY(0deg);
+        }
+
+        /* garis emas di tengah pintu */
+        .door.left::after,
+        .door.right::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, rgba(243, 216, 156, .75), transparent);
+            opacity: .85;
+        }
+
+        .door.left::after {
+            right: -1px;
+        }
+
+        .door.right::after {
+            left: -1px;
+        }
+
+        /* OPEN: pintu kebuka kaya didorong */
+        .cover.open .door.left {
+            transform: rotateY(-85deg);
+        }
+
+        .cover.open .door.right {
+            transform: rotateY(85deg);
+        }
+
+        /* cover-inner ikut fade pelan */
+        .cover.open .cover-inner {
+            opacity: 0;
+            transform: scale(.98);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .cover-inner {
+            position: relative;
+            z-index: 999;
+        }
+
+        /* =========================
+   MUSIC TOGGLE BUTTON
+========================= */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(243, 216, 156, .35);
+
+            background: rgba(24, 9, 12, .85);
+            color: var(--gold2);
+            font-size: 18px;
+            cursor: pointer;
+
+            backdrop-filter: blur(6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .4);
+
+            transition: all .3s ease;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.08);
+        }
+
+
+
+        /* =========================
+   PROFILE PREMIUM STYLE
+========================= */
+
+        .profile-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+            margin-top: 22px;
+        }
+
+        /* Card tiap profile */
+        /* =========================
+   PROFILE PREMIUM STYLE
+========================= */
+
+        /* =========================
+   PROFILE PREMIUM STYLE
+========================= */
+
+        .profile-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            margin-top: 28px;
+        }
+
+        /* PROFILE CARD */
+        .profile {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* kiri kanan */
+            gap: 30px;
+
+            padding: 26px;
+            border-radius: 30px;
+            border: 1px solid rgba(243, 216, 156, .18);
+            background: rgba(255, 255, 255, .04);
+
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1.2s cubic-bezier(.2, .9, .2, 1);
+        }
+
+        .profile.show-profile {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* FOTO BULAT + GLOW */
+        .profile img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+
+            border-radius: 50%;
+            border: 3px solid var(--gold2);
+            padding: 6px;
+
+            background: rgba(0, 0, 0, .3);
+
+            box-shadow:
+                0 0 0 2px rgba(243, 216, 156, .15),
+                0 0 22px rgba(243, 216, 156, .35),
+                0 12px 35px rgba(0, 0, 0, .6);
+
+            transition: transform .6s ease, box-shadow .6s ease;
+        }
+
+        /* HOVER EFFECT */
+        .profile:hover img {
+            transform: scale(1.07);
+            box-shadow:
+                0 0 0 3px rgba(243, 216, 156, .25),
+                0 0 32px rgba(243, 216, 156, .55),
+                0 16px 40px rgba(0, 0, 0, .7);
+        }
+
+        /* TEXT */
+        .profile-info {
+            flex: 1;
+            text-align: center;
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        /* ORNAMENT DIVIDER */
+        .ornament-divider {
+            height: 1px;
+            width: 65%;
+            margin: 0 auto;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(243, 216, 156, .9),
+                    transparent);
+            position: relative;
+        }
+
+        .ornament-divider::before {
+            content: "✦";
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gold2);
+            font-size: 18px;
+        }
+
+        /* =========================
+   MOBILE
+========================= */
+
+        @media (max-width:560px) {
+
+            .profile {
+                flex-direction: column;
+                text-align: center;
+                padding: 22px;
+            }
+
+            .profile img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .profile-info {
+                text-align: center;
+                font-size: 14px;
+            }
+
+        }
+
+        /* ===== MAP ===== */
+
+        .map-wrap {
+            margin-top: 14px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(243, 216, 156, .15);
+        }
+
+        .map-wrap iframe {
+            width: 100%;
+            height: 220px;
+            border: none;
+        }
+
+        /* ===== QR ===== */
+
+        .qr-wrap {
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .qr-wrap img {
+            width: 140px;
+            border-radius: 12px;
+            padding: 6px;
+            background: rgba(255, 255, 255, .05);
+        }
     </style>
 </head>
 
@@ -548,17 +908,25 @@
 
     <!-- BACKGROUND -->
     <div class="bg"></div>
-
+    <button id="musicToggle" class="music-btn" onclick="toggleMusic()">
+        🔊
+    </button>
+    <audio id="bgm" preload="auto" loop>
+        <source src="lagu.mp3" type="audio/mpeg">
+    </audio>
     <!-- COVER -->
     <div class="cover" id="cover">
+        <div class="door left"></div>
+        <div class="door right"></div>
+
         <div class="cover-inner">
             <div class="ornament-line"></div>
             <p class="cover-title">UNDANGAN PERNIKAHAN</p>
-            <div class="cover-names">Nama Pria & Nama Wanita</div>
+            <div class="cover-names">Muhammad Hendro, S.T & Nadya Maharani, S.Pd</div>
 
             <div class="cover-sub">
-                Sabtu, 12 Januari 2026<br>
-                Mohon doa restu & kehadirannya
+                Sabtu, 04 April 2026<br>
+                Mohon Doa Restu & Kehadirannya
             </div>
 
             <div class="guest-badge">
@@ -580,7 +948,7 @@
                     <img src="tengah.png" class="gunungan-img" alt="Gunungan">
 
                     <h1>The Wedding Of</h1>
-                    <div class="names">Nama Pria & Nama Wanita</div>
+                    <div class="names">Muhammad Hendro, S.T & Nadya Maharani, S.Pd</div>
                     <div class="countdown-wrap">
                         <div class="count-item">
                             <div class="count-num" id="cdDays">00</div>
@@ -627,11 +995,55 @@
             <div class="card from-right" data-animate="page">
                 <div class="inner stagger">
                     <h2>Salam</h2>
+
                     <div class="box">
                         Assalamu’alaikum Warahmatullahi Wabarakatuh<br><br>
-                        Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud mengundang
-                        Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
+                        Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud
+                        mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara
+                        pernikahan kami.
                     </div>
+
+                    <div class="box" style="margin-top:14px; text-align:center;">
+                        <em>
+                            “Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan
+                            pasangan-pasangan untukmu dari jenismu sendiri, agar kamu
+                            cenderung dan merasa tenteram kepadanya, dan Dia menjadikan
+                            di antaramu rasa kasih dan sayang.”
+                        </em>
+                        <br><br>
+                        <strong>QS. Ar-Rum: 21</strong>
+                    </div>
+
+                    <div class="profile-wrap">
+
+                        <!-- Mempelai Pria -->
+                        <div class="profile">
+                            <img src="foto/1.jpg" alt="Muhammad Hendro">
+
+                            <div class="profile-info">
+                                <div class="label">Muhammad Hendro, S.T</div>
+                                Putra dari<br>
+                                Almarhum Bapak Djoko Sarono<br>
+                                & Ibu Suharti
+                            </div>
+                        </div>
+
+                        <div class="ornament-divider"></div>
+
+                        <!-- Mempelai Wanita -->
+                        <div class="profile">
+                            <div class="profile-info">
+                                <div class="label">Nadya Maharani, S.Pd</div>
+                                Putri dari<br>
+                                Almarhum Bapak Suyatno<br>
+                                & Ibu Hesti Setyawati
+                            </div>
+
+                            <img src="foto/6.jpg" alt="Nadya Maharani">
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -640,20 +1052,29 @@
         <section class="page">
             <div class="card from-left" data-animate="page">
                 <div class="inner stagger">
-                    <h2>Acara</h2>
+                    <h2>Rangkaian Acara</h2>
+
+                    <p class="muted" style="text-align:center;">
+                        Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud
+                        menyelenggarakan rangkaian acara pernikahan sebagai berikut:
+                    </p>
 
                     <div class="item">
                         <div class="label">Akad Nikah</div>
-                        Sabtu, 12 Januari 2026 — 09.00 WIB
+                        Sabtu, 4 April 2026<br>
+                        Pukul 07.00 WIB
                     </div>
 
                     <div class="item">
                         <div class="label">Resepsi</div>
-                        Sabtu, 12 Januari 2026 — 11.00 WIB
+                        Sabtu, 4 April 2026<br>
+                        Pukul 11.00 – 16.00 WIB
                     </div>
 
-                    <div class="box">
-                        “Mugi dados pasangan sakinah, mawaddah, warahmah”
+                    <div class="box" style="text-align:center;">
+                        <em>
+                            “Mugi dados pasangan sakinah, mawaddah, warahmah.”
+                        </em>
                     </div>
                 </div>
             </div>
@@ -667,17 +1088,37 @@
 
                     <div class="item">
                         <div class="label">Tempat</div>
-                        Pendopo / Gedung Serbaguna Bahagia
+                        Perumahan Papan Mas
                     </div>
 
                     <div class="item">
                         <div class="label">Alamat</div>
-                        Jl. Contoh Alamat No. 10, Jakarta
+                        Blok G 3 No. 3 RT.007 RW.003<br>
+                        Desa Setia Mekar, Tambun Selatan<br>
+                        Kabupaten Bekasi
                     </div>
 
-                    <a class="btn" target="_blank" href="https://maps.google.com">
-                        Petunjuk Ke Lokasi
+                    <!-- MAP -->
+                    <div class="map-wrap">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3966.0841799967493!2d107.04861110000002!3d-6.252638899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTUnMDkuNSJTIDEwN8KwMDInNTUuMCJF!5e0!3m2!1sen!2sid!4v1772598484522!5m2!1sen!2sid"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <!-- QR CODE -->
+                    <div class="qr-wrap">
+                        <img src="qra.jpg" alt="QR Lokasi">
+                        <div class="muted">Scan QR untuk membuka lokasi</div>
+                    </div>
+
+                    <a class="btn" target="_blank"
+                        href="https://maps.app.goo.gl/x2EVri9M4z4qHvpk8">
+                        Buka di Google Maps
                     </a>
+
                 </div>
             </div>
         </section>
@@ -690,10 +1131,12 @@
                     <p class="muted">Momen terbaik kami 💛</p>
 
                     <div class="gallery">
-                        <img src="https://images.unsplash.com/photo-1523438097201-512ae7d59b1b?auto=format&fit=crop&w=800&q=60" alt="Foto 1">
-                        <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&w=800&q=60" alt="Foto 2">
-                        <img src="https://images.unsplash.com/photo-1523437237164-d442d57cc3c9?auto=format&fit=crop&w=800&q=60" alt="Foto 3">
-                        <img src="https://images.unsplash.com/photo-1526045478516-99145907023c?auto=format&fit=crop&w=800&q=60" alt="Foto 4">
+                        <img src="foto/1.jpg" loading="lazy" alt="Foto 1">
+                        <img src="foto/2.jpg" loading="lazy" alt="Foto 2">
+                        <img src="foto/3.jpg" loading="lazy" alt="Foto 3">
+                        <img src="foto/4.jpg" loading="lazy" alt="Foto 4">
+                        <img src="foto/5.jpg" loading="lazy" alt="Foto 5">
+                        <img src="foto/6.jpg" loading="lazy" alt="Foto 6">
                     </div>
 
                     <div class="box" style="text-align:center;">
@@ -745,14 +1188,33 @@
 
     <script>
         function openInvitation() {
-            document.getElementById("cover").classList.add("hidden");
-            setTimeout(() => {
-                document.getElementById("snap").scrollTo({
-                    top: 0,
-                    behavior: "smooth"
+            const cover = document.getElementById("cover");
+
+            // ✅ PLAY MUSIC setelah klik
+            const bgm = document.getElementById("bgm");
+            if (bgm) {
+                bgm.volume = 0.75; // atur volume
+                bgm.play().catch((err) => {
+                    console.log("Autoplay diblokir:", err);
                 });
-            }, 140);
+            }
+
+            cover.classList.add("open");
+
+            // tunggu pintu selesai muter
+            setTimeout(() => {
+                cover.classList.add("hidden");
+
+                setTimeout(() => {
+                    document.getElementById("snap").scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                }, 200);
+
+            }, 1700);
         }
+
 
         // Cinematic page show/hide
         const cards = document.querySelectorAll('[data-animate="page"]');
@@ -1059,6 +1521,36 @@ Terima kasih 🤍`;
                 }
             });
         });
+
+        function toggleMusic() {
+            const bgm = document.getElementById("bgm");
+            const btn = document.getElementById("musicToggle");
+
+            if (!bgm) return;
+
+            if (bgm.paused) {
+                bgm.play();
+                btn.textContent = "🔊";
+            } else {
+                bgm.pause();
+                btn.textContent = "🔇";
+            }
+        }
+
+        // Animate profile on scroll
+        const profiles = document.querySelectorAll('.profile');
+
+        const profileObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show-profile');
+                }
+            });
+        }, {
+            threshold: 0.3
+        });
+
+        profiles.forEach(el => profileObserver.observe(el));
     </script>
 
 
@@ -1071,6 +1563,5 @@ Terima kasih 🤍`;
     </script>
 
 </body>
-
 
 </html>
