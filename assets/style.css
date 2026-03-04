@@ -1,0 +1,509 @@
+:root {
+  --bg1: #0b0a0a;
+  --bg2: #1a0f12;
+
+  --card: rgba(18, 10, 12, .72);
+  --border: rgba(243, 216, 156, .20);
+
+  --gold: #d2aa57;
+  --gold2: #f3d89c;
+
+  --text: #fff6e5;
+  --muted: rgba(255, 246, 229, .75);
+
+  --radius: 28px;
+  --shadow: 0 18px 50px rgba(0, 0, 0, .55);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* biar feel halus saat pindah snap */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 700px at 15% 0%, rgba(210, 170, 87, .12), transparent 55%),
+    radial-gradient(900px 600px at 85% 10%, rgba(243, 216, 156, .10), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* batik pattern */
+.pattern {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .12;
+  background-image:
+    radial-gradient(circle at 25px 25px, rgba(243, 216, 156, .28) 2px, transparent 3px),
+    radial-gradient(circle at 75px 75px, rgba(210, 170, 87, .22) 2px, transparent 3px);
+  background-size: 100px 100px;
+  mix-blend-mode: screen;
+}
+
+/* =========================
+   SNAP SCROLL "BUKU"
+========================= */
+.snap-wrap {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* tiap page 1 layar */
+.snap-page {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+/* card per halaman */
+.page-card {
+  width: min(980px, 92vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* efek “kertas buku” soft */
+.page-card::before {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(243, 216, 156, .12), transparent 55%),
+    radial-gradient(circle at 90% 5%, rgba(210, 170, 87, .10), transparent 50%);
+  pointer-events: none;
+  opacity: .8;
+}
+
+/* konten dalam card */
+.section {
+  padding: 22px;
+  position: relative;
+  z-index: 2;
+}
+
+.center {
+  text-align: center;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+.title {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold2);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+h1,
+h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--gold2);
+}
+
+h1 {
+  font-size: clamp(26px, 4vw, 44px);
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: clamp(18px, 3vw, 26px);
+  margin-bottom: 10px;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.divider {
+  width: 120px;
+  height: 2px;
+  margin: 14px auto;
+  background: linear-gradient(90deg, transparent, rgba(243, 216, 156, .9), transparent);
+}
+
+/* =========================
+   BUTTON
+========================= */
+.btn {
+  appearance: none;
+  border: 1px solid rgba(243, 216, 156, .35);
+  background: linear-gradient(180deg, rgba(210, 170, 87, .25), rgba(210, 170, 87, .08));
+  color: var(--text);
+  padding: 12px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: 650;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s ease, filter .15s ease, border-color .15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  border-color: rgba(243, 216, 156, .55);
+}
+
+.btn:active {
+  transform: translateY(0px);
+}
+
+.btn.secondary {
+  background: rgba(255, 255, 255, .04);
+}
+
+/* =========================
+   EVENT BOX
+========================= */
+.event-box {
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(243, 216, 156, .16);
+  background: rgba(0, 0, 0, .18);
+  margin-top: 12px;
+}
+
+.event-box .label {
+  color: var(--gold2);
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.event-box .value {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.event-box .desc {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================
+   GRID
+========================= */
+.grid {
+  display: grid;
+  gap: 14px;
+}
+
+.grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 720px) {
+  .grid.two {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   FORM RSVP (INI FIX UTAMA)
+========================= */
+.rsvp-form {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+/* pada layar besar -> Nama & Kehadiran sejajar */
+@media (min-width: 760px) {
+  .rsvp-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rsvp-form textarea {
+    grid-column: 1 / -1;
+  }
+
+  .rsvp-form button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+/* input/select/textarea style */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(243, 216, 156, .20);
+  outline: none;
+  background: rgba(0, 0, 0, .28);
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color .15s ease, filter .15s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 246, 229, .55);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(243, 216, 156, .55);
+  filter: brightness(1.04);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* select option biar kebaca */
+option {
+  background: #120b0d;
+  color: #fff6e5;
+}
+
+/* =========================
+   MAPS
+========================= */
+.maps {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(243, 216, 156, .16);
+}
+
+/* =========================
+   GALLERY
+========================= */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 760px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ph {
+  border-radius: 18px;
+  height: 140px;
+  border: 1px solid rgba(243, 216, 156, .14);
+  background:
+    radial-gradient(120px 80px at 20% 20%, rgba(243, 216, 156, .18), transparent 60%),
+    radial-gradient(100px 70px at 80% 30%, rgba(210, 170, 87, .14), transparent 60%),
+    rgba(255, 255, 255, .02);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .35);
+}
+
+/* =========================
+   UTIL
+========================= */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================
+   COVER FADE OUT
+========================= */
+.fade-out {
+  animation: coverFade .55s ease forwards;
+}
+@keyframes coverFade {
+  from { opacity: 1; transform: scale(1); filter: blur(0); }
+  to { opacity: 0; transform: scale(0.985); filter: blur(6px); }
+}
+
+/* =========================
+   TIRAI KERATON
+========================= */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.curtain.hidden {
+  display: none !important;
+}
+
+.curtain-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50vw;
+  background:
+    radial-gradient(600px 380px at 30% 20%, rgba(243,216,156,.12), transparent 55%),
+    radial-gradient(520px 320px at 70% 10%, rgba(210,170,87,.10), transparent 55%),
+    linear-gradient(180deg, rgba(10,7,8,.98), rgba(25,12,14,.98));
+  border: 1px solid rgba(243,216,156,.16);
+  box-shadow: 0 30px 90px rgba(0,0,0,.75);
+}
+
+.curtain-panel.left {
+  left: 0;
+  border-right: 1px solid rgba(243,216,156,.12);
+  transform: translateX(0);
+}
+
+.curtain-panel.right {
+  right: 0;
+  border-left: 1px solid rgba(243,216,156,.12);
+  transform: translateX(0);
+}
+
+/* garis motif tirai */
+.curtain-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .16;
+  background-image:
+    repeating-linear-gradient(90deg,
+      rgba(243,216,156,.18) 0px,
+      rgba(243,216,156,.18) 1px,
+      transparent 1px,
+      transparent 22px
+    );
+  mix-blend-mode: screen;
+}
+
+/* teks tengah */
+.curtain-center{
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 18px 22px;
+  border-radius: 20px;
+  border: 1px solid rgba(243,216,156,.20);
+  background: rgba(0,0,0,.25);
+  backdrop-filter: blur(10px);
+}
+
+.curtain-logo{
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--gold2);
+  letter-spacing: .12em;
+  font-size: 18px;
+}
+
+.curtain-sub{
+  margin-top: 8px;
+  color: rgba(255,246,229,.7);
+  font-size: 13px;
+}
+
+/* animasi buka tirai */
+.curtain.open .curtain-panel.left {
+  animation: curtainLeft 0.85s cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+.curtain.open .curtain-panel.right {
+  animation: curtainRight 0.85s cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+@keyframes curtainLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-105%); }
+}
+
+@keyframes curtainRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(105%); }
+}
+
+/* =========================
+   ORNAMEN tengah.png (atas & bawah)
+========================= */
+.orn {
+  height: 86px;                 /* tinggi ornamen */
+  width: 100%;
+  background-image: url("../tengah.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: .92;
+
+  /* animasi default */
+  transform: translateY(0) scale(.98);
+  transition: transform .7s ease, opacity .7s ease;
+}
+
+.orn-top {
+  margin-top: 14px;
+}
+
+.orn-bottom {
+  margin-bottom: 14px;
+  transform: rotate(180deg); /* bawah dibalik biar keren */
+  opacity: .85;
+}
+
+/* supaya section konten tetap nyaman */
+.page-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-card .section {
+  flex: 1;
+}
+
+/* =========================
+   GERAK SAAT MASUK HALAMAN
+========================= */
+.snap-page.is-active .orn-top {
+  animation: ornFloatTop 1.2s ease both;
+}
+
+.snap-page.is-active .orn-bottom {
+  animation: ornFloatBottom 1.2s ease both;
+}
+
+@keyframes ornFloatTop {
+  0%   { opacity: 0; transform: translateY(-14px) scale(.96); }
+  60%  { opacity: 1; transform: translateY(0px) scale(1); }
+  100% { opacity: .92; transform: translateY(-3px) scale(1); }
+}
+
+@keyframes ornFloatBottom {
+  0%   { opacity: 0; transform: rotate(180deg) translateY(-14px) scale(.96); }
+  60%  { opacity: 1; transform: rotate(180deg) translateY(0px) scale(1); }
+  100% { opacity: .85; transform: rotate(180deg) translateY(-3px) scale(1); }
+}
