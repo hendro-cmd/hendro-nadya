@@ -1,0 +1,1126 @@
+:root {
+  --text: #fff6e5;
+  --muted: rgba(255, 246, 229, 0.78);
+  --gold: #d2aa57;
+  --gold2: #f3d89c;
+  --card: rgba(24, 9, 12, 0.78);
+  --border: rgba(243, 216, 156, 0.18);
+  --radius: 30px;
+
+  /* padding global */
+  --pad: 18px;
+}
+
+/* reset */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body{
+margin:0;
+font-family:"Georgia",serif;
+color:var(--text);
+background:#0b0707;
+overflow-x:hidden;
+}
+
+/* ===== BACKGROUND IMAGE ===== */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+
+  background-image: url("bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  /* INI KUNCINYA */
+}
+
+.bg {
+  background-attachment: scroll;
+}
+
+/* ===== COVER ===== */
+.cover {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:0;   /* hilangkan padding untuk pintu */
+  z-index: 999;
+  transition: 0.55s cubic-bezier(0.2, 0.9, 0.2, 1);
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(210, 170, 87, 0.22),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(12, 6, 7, 0.98), rgba(7, 4, 5, 0.98));
+  backdrop-filter: blur(8px);
+}
+
+.cover.hidden {
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+}
+
+.cover-inner {
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(59, 16, 22, 0.75),
+    rgba(24, 9, 12, 0.82)
+  );
+  border: 1px solid rgba(243, 216, 156, 0.22);
+  border-radius: 34px;
+  padding: 22px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.ornament-line {
+  height: 12px;
+  border-radius: 999px;
+  margin: 10px auto;
+  width: 72%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(243, 216, 156, 0.9),
+    transparent
+  );
+  opacity: 0.9;
+}
+
+.cover-title {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold2);
+  opacity: 0.95;
+}
+
+.cover-names {
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.cover-sub {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.guest-badge {
+  margin-top: 14px;
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(243, 216, 156, 0.2);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.guest-badge b {
+  color: var(--gold2);
+}
+
+.open-btn {
+  margin-top: 16px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #1a140b;
+  padding: 12px 18px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 14px 22px rgba(210, 170, 87, 0.18);
+}
+
+/* ===== SCROLL SNAP CONTAINER ===== */
+/* penting: tinggi stabil pakai dvh + fallback var(--vh) */
+.snap {
+  height: 100dvh;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow-y: auto;
+
+  /* padding pakai variable */
+  padding: var(--pad);
+
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  position: relative;
+  z-index: 1;
+
+  /* biar scroll halus di iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* page: jangan dihitung aneh-aneh, cukup 100% viewport minus padding */
+.page {
+  min-height: calc(100dvh - (var(--pad) * 2));
+  min-height: calc((var(--vh, 1vh) * 100) - (var(--pad) * 2));
+
+  scroll-snap-align: start;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== CARD ===== */
+.card{
+width:100%;
+max-width:760px;
+
+background:linear-gradient(
+180deg,
+rgba(40,14,18,.55),
+rgba(24,9,12,.65)
+);
+
+border-radius:28px;
+
+/* border emas halus */
+
+border:1px solid rgba(243,216,156,.22);
+
+/* shadow lebih soft */
+
+box-shadow:
+0 25px 70px rgba(0,0,0,.55),
+inset 0 0 0 1px rgba(243,216,156,.05);
+
+overflow:hidden;
+
+backdrop-filter:blur(12px);
+
+opacity:0;
+
+transform:translate3d(0,30px,0) scale(.98);
+
+transition:
+opacity .6s ease,
+transform .7s cubic-bezier(.22,.61,.36,1);
+
+will-change:transform,opacity;
+}
+
+.card::after{
+
+content:"";
+
+position:absolute;
+inset:0;
+
+background:radial-gradient(
+circle at top,
+rgba(243,216,156,.08),
+transparent 70%
+);
+
+pointer-events:none;
+
+}
+
+.from-left {
+  transform: translateX(-95px);
+}
+
+.from-right {
+  transform: translateX(95px);
+}
+
+.card.show {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+}
+
+/* ===== STAGGER TEXT ===== */
+.stagger>*{
+opacity:0;
+transform:translate3d(0,18px,0);
+transition:
+opacity .6s ease,
+transform .7s cubic-bezier(.22,.61,.36,1);
+}
+
+.card.from-left .stagger > * {
+  transform: translateX(-16px) translateY(18px);
+}
+
+.card.from-right .stagger > * {
+  transform: translateX(16px) translateY(18px);
+}
+
+.card.show .stagger > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger > *:nth-child(1) {
+  transition-delay: 0.15s;
+}
+
+.stagger > *:nth-child(2) {
+  transition-delay: 0.38s;
+}
+
+.stagger > *:nth-child(3) {
+  transition-delay: 0.62s;
+}
+
+.stagger > *:nth-child(4) {
+  transition-delay: 0.86s;
+}
+
+.stagger > *:nth-child(5) {
+  transition-delay: 1.1s;
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 34px 22px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(210, 170, 87, 0.2), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent);
+  position: relative;
+}
+
+.gunungan-img {
+  width: 90px;
+  height: auto;
+  margin: 0 auto 14px;
+  display: block;
+  opacity: 0.95;
+  filter: drop-shadow(0 18px 25px rgba(0, 0, 0, 0.55));
+}
+
+h1,
+h2 {
+  margin: 0 0 10px;
+  line-height: 1.25;
+  color: var(--gold2);
+}
+
+h1 {
+  font-size: 26px;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.names {
+  margin-top: 14px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.inner {
+  padding: 24px 22px;
+}
+
+.box {
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(243, 216, 156, 0.16);
+  padding: 14px;
+  border-radius: 22px;
+  line-height: 1.8;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(243, 216, 156, 0.14);
+  padding: 12px 14px;
+  border-radius: 22px;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.label {
+  font-weight: 700;
+  color: var(--gold2);
+  margin-bottom: 4px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 12px;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #1a140b;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 14px 22px rgba(210, 170, 87, 0.18);
+}
+
+.countdown-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.count-item {
+  min-width: 72px;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(243, 216, 156, 0.16);
+}
+
+.count-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold2);
+}
+
+.count-lbl {
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.btn-wa {
+  margin-top: 14px;
+  width: 100%;
+  max-width: 360px;
+}
+
+/* ===== GALLERY FIX MOBILE ===== */
+
+/* ===== GALLERY FINAL ===== */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* desktop 2 kolom */
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.gallery img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  object-position: center;
+
+  background: transparent;
+  border-radius: 35px;
+  /* ini bikin lebih smooth */
+  border: 1px solid rgba(243, 216, 156, 0.14);
+  padding: 6px;
+}
+
+.gallery img:hover {
+  transform: scale(1.03);
+}
+
+/* MOBILE */
+@media (max-width: 560px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    /* tetap 2 kolom di HP */
+    gap: 10px;
+  }
+
+  .gallery img {
+    aspect-ratio: 3 / 4;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 18px 22px 26px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(243, 216, 156, 0.55),
+    transparent
+  );
+  margin: 14px 0 0;
+  opacity: 0.9;
+}
+
+/* ===== COMPACT WISH LIST ===== */
+#wishList {
+  display: grid;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wish-item {
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(243, 216, 156, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.wish-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.wish-name {
+  color: var(--gold2);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.wish-time {
+  font-size: 11px;
+  color: rgba(255, 246, 229, 0.55);
+  white-space: nowrap;
+}
+
+.wish-msg {
+  margin-top: 5px;
+  color: var(--muted);
+  line-height: 1.45;
+  font-size: 13px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 560px) {
+  :root {
+    --pad: 12px;
+  }
+
+  .cover-inner {
+    padding: 18px;
+    border-radius: 26px;
+  }
+
+  .cover-names {
+    font-size: 24px;
+  }
+
+  .card {
+    backdrop-filter: none;
+  }
+
+  .cover {
+    backdrop-filter: none;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .names {
+    font-size: 24px;
+  }
+
+  .hero {
+    padding: 24px 16px;
+  }
+
+  .inner {
+    padding: 18px 16px;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .count-item {
+    min-width: 68px;
+    padding: 8px 10px;
+    border-radius: 16px;
+  }
+
+  .count-num {
+    font-size: 16px;
+  }
+
+  .gallery img {
+    height: 240px;
+  }
+
+  #wishList {
+    max-height: 190px;
+  }
+
+  .wish-item {
+    padding: 9px 10px;
+  }
+
+  .wish-msg {
+    font-size: 12.5px;
+  }
+
+  .snap {
+    scroll-snap-type: none;
+  }
+
+  .page {
+    scroll-snap-align: none;
+  }
+}
+
+/* =========================
+   ORNAMEN POJOK CARD (w2.png)
+========================= */
+.card {
+  position: relative;
+  /* wajib */
+  overflow: hidden;
+  /* biar ornamen gak keluar card */
+}
+
+/* kiri atas */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: -22px;
+  width: 120px;
+  height: 120px;
+  background: url("bingkai.png") center/contain no-repeat;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.55));
+}
+
+/* kanan bawah (mirror biar simetris) */
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: -22px;
+  right: -22px;
+  width: 120px;
+  height: 120px;
+  background: url("bingkai.png") center/contain no-repeat;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  transform: scaleX(-1) scaleY(-1);
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.55));
+}
+
+/* semua isi card harus di atas ornamen */
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================
+   DOOR PUSH OPEN (3D ROTATE)
+========================= */
+.cover {
+  position: fixed;
+  inset: 0;
+  perspective: 1200px;
+  /* bikin efek 3D */
+  transform-style: preserve-3d;
+}
+
+/* =========================
+   ROYAL CSS DOOR SYSTEM
+========================= */
+
+.door{
+position:absolute;
+top:0;
+width:50%;
+height:100%;
+z-index:998;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+/* tekstur kayu */
+
+background:
+url("kayu.png") center/cover no-repeat;
+
+transform-style:preserve-3d;
+backface-visibility:hidden;
+
+transition:transform 2s cubic-bezier(.22,.61,.36,1);
+}
+
+/* =========================
+   LEFT DOOR
+========================= */
+
+.door.left{
+left:0;
+transform-origin:left center;
+
+box-shadow:
+inset -40px 0 70px rgba(0,0,0,.55),
+inset -5px 0 15px rgba(0,0,0,.35);
+}
+
+/* =========================
+   RIGHT DOOR
+========================= */
+
+.door.right{
+right:0;
+transform-origin:right center;
+
+box-shadow:
+inset 40px 0 70px rgba(0,0,0,.55),
+inset 5px 0 15px rgba(0,0,0,.35);
+}
+
+/* =========================
+   PANEL UKIRAN JAWA
+========================= */
+
+.door::before{
+content:"";
+position:absolute;
+
+top:18%;
+left:12%;
+right:12%;
+bottom:18%;
+
+border-radius:10px;
+border:2px solid rgba(243,216,156,.45);
+
+box-shadow:
+inset 0 0 15px rgba(0,0,0,.5),
+0 0 8px rgba(243,216,156,.25);
+}
+/* =========================
+   HANDLE PINTU EMAS
+========================= */
+
+.door::after{
+content:"";
+
+position:absolute;
+width:22px;
+height:22px;
+
+background:
+radial-gradient(circle,
+#ffd87a 0%,
+#f3c04d 40%,
+#a77b1f 100%);
+
+border-radius:50%;
+
+box-shadow:
+0 0 8px rgba(255,215,120,.6),
+0 2px 6px rgba(0,0,0,.5);
+
+top:50%;
+transform:translateY(-50%);
+}
+
+/* posisi handle */
+
+.door.left::after{
+right:18%;
+}
+
+.door.right::after{
+left:18%;
+}
+
+/* =========================
+   GOLD CENTER LINE
+========================= */
+
+.door.left span,
+.door.right span{
+display:none;
+}
+
+.door.left::marker,
+.door.right::marker{
+display:none;
+}
+
+/* garis tengah */
+
+.door.left::before,
+.door.right::before{
+pointer-events:none;
+}
+
+/* =========================
+   LIGHT FROM DOOR
+========================= */
+
+.cover::before{
+content:"";
+
+position:absolute;
+top:0;
+left:50%;
+
+width:10px;
+height:100%;
+
+transform:translateX(-50%);
+
+background:linear-gradient(
+180deg,
+transparent,
+rgba(255,220,140,.8),
+transparent
+);
+
+filter:blur(8px);
+
+opacity:.6;
+pointer-events:none;
+
+transition:opacity 1s ease;
+}
+
+/* cahaya lebih terang saat pintu buka */
+
+.cover.open::before{
+opacity:.95;
+}
+
+/* =========================
+   DOOR OPEN ANIMATION
+========================= */
+
+.cover.open .door.left{
+transform:rotateY(-100deg);
+}
+
+.cover.open .door.right{
+transform:rotateY(100deg);
+}
+
+/* =========================
+   COVER FADE
+========================= */
+
+.cover.open .cover-inner{
+opacity:0;
+transform:scale(.96);
+
+transition:
+opacity .7s ease,
+transform .7s ease;
+}
+
+/* =========================
+   COVER INNER FIX
+========================= */
+
+.cover-inner{
+position:relative;
+z-index:999;
+}
+
+/* =========================
+   GOLD DUST PARTICLES
+========================= */
+
+.gold-dust{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+overflow:hidden;
+z-index:997;
+}
+
+/* partikel */
+
+.gold-particle{
+
+position:absolute;
+
+background:radial-gradient(
+circle,
+#fff2b3,
+#f3c45a,
+rgba(255,215,120,.2)
+);
+
+border-radius:50%;
+
+opacity:0;
+
+animation:goldFloat 3.2s ease-out forwards;
+
+box-shadow:
+0 0 6px rgba(255,220,120,.8),
+0 0 14px rgba(255,200,80,.6);
+
+}
+
+/* animasi debu */
+
+@keyframes goldFloat{
+
+0%{
+transform:translateY(0) scale(.5);
+opacity:0;
+}
+
+20%{
+opacity:1;
+}
+
+100%{
+transform:translateY(-600px) scale(1.2);
+opacity:0;
+}
+
+}
+
+
+/* =========================
+   MUSIC TOGGLE BUTTON
+========================= */
+.music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2000;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(243, 216, 156, 0.35);
+
+  background: rgba(24, 9, 12, 0.85);
+  color: var(--gold2);
+  font-size: 18px;
+  cursor: pointer;
+
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+
+  transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+  transform: scale(1.08);
+}
+
+/* =========================
+   PROFILE PREMIUM STYLE
+========================= */
+
+.profile-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  margin-top: 22px;
+}
+
+/* Card tiap profile */
+/* =========================
+   PROFILE PREMIUM STYLE
+========================= */
+
+/* =========================
+   PROFILE PREMIUM STYLE
+========================= */
+
+.profile-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  margin-top: 28px;
+}
+
+/* PROFILE CARD */
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* kiri kanan */
+  gap: 30px;
+
+  padding: 26px;
+  border-radius: 30px;
+  border: 1px solid rgba(243, 216, 156, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity 1s ease,
+    transform 1.2s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.profile.show-profile {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* FOTO BULAT + GLOW */
+.profile img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+
+  border-radius: 50%;
+  border: 3px solid var(--gold2);
+  padding: 6px;
+
+  background: rgba(0, 0, 0, 0.3);
+
+  box-shadow:
+    0 0 0 2px rgba(243, 216, 156, 0.15),
+    0 0 22px rgba(243, 216, 156, 0.35),
+    0 12px 35px rgba(0, 0, 0, 0.6);
+
+  transition:
+    transform 0.6s ease,
+    box-shadow 0.6s ease;
+}
+
+/* HOVER EFFECT */
+.profile:hover img {
+  transform: scale(1.07);
+  box-shadow:
+    0 0 0 3px rgba(243, 216, 156, 0.25),
+    0 0 32px rgba(243, 216, 156, 0.55),
+    0 16px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* TEXT */
+.profile-info {
+  flex: 1;
+  text-align: center;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+/* ORNAMENT DIVIDER */
+.ornament-divider {
+  height: 1px;
+  width: 65%;
+  margin: 0 auto;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(243, 216, 156, 0.9),
+    transparent
+  );
+  position: relative;
+}
+
+.ornament-divider::before {
+  content: "✦";
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold2);
+  font-size: 18px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 560px) {
+  .profile {
+    flex-direction: column;
+    text-align: center;
+    padding: 22px;
+  }
+
+  .profile img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .profile-info {
+    text-align: center;
+    font-size: 14px;
+  }
+}
+
+/* ===== MAP ===== */
+
+.map-wrap {
+  margin-top: 14px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(243, 216, 156, 0.15);
+}
+
+.map-wrap iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+}
+
+/* ===== QR ===== */
+
+.qr-wrap {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.qr-wrap img {
+  width: 140px;
+  border-radius: 12px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+}
