@@ -429,3 +429,16 @@ toggleMusic
 })();
 
 document.addEventListener("DOMContentLoaded",App.init);
+
+
+function copyRek(id){
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+  alert("Nomor rekening berhasil disalin");
+}
+
+function copyText(btn){
+  const text = btn.parentElement.querySelector(".gift-address").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Alamat berhasil disalin");
+}
