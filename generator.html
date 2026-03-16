@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Generator Undangan</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f4f4f4;
+padding:40px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+font-size:16px;
+border:1px solid #ccc;
+border-radius:6px;
+margin-bottom:15px;
+}
+
+button{
+padding:12px 20px;
+font-size:16px;
+background:#1f7aec;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+textarea{
+width:100%;
+margin-top:20px;
+height:220px;
+padding:12px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px;
+}
+
+.copy{
+margin-top:10px;
+background:#2ecc71;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Generator Pesan Undangan</h2>
+
+<input type="text" id="nama" placeholder="Masukkan nama tamu">
+
+<button onclick="generate()">Buat Pesan</button>
+
+<textarea id="hasil"></textarea>
+
+<button class="copy" onclick="copyText()">Copy Pesan</button>
+
+</div>
+
+<script>
+
+function generate(){
+
+let nama = document.getElementById("nama").value.trim()
+
+let namaUrl = nama.replace(/ /g,"%20")
+
+let link = "https://hendro-nadya.online/?to=" + namaUrl
+
+let pesan =
+`Assalamu’alaikum Wr. Wb.
+
+Kepada Yth.
+${nama}
+
+Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
+
+💍 Hendro & Nadya
+🗓 Sabtu, 4 April 2026
+
+Undangan digital:
+${link}
+
+Terima kasih 🙏`
+
+document.getElementById("hasil").value = pesan
+
+}
+
+function copyText(){
+
+let text = document.getElementById("hasil")
+
+text.select()
+
+document.execCommand("copy")
+
+alert("Pesan berhasil disalin")
+
+}
+
+</script>
+
+</body>
+</html>
